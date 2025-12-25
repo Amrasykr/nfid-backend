@@ -3,7 +3,11 @@ const router = express.Router();
 const {
   getUsageHistory,
   getWeeklyUsageHistory,
+  createUsageHistory,
 } = require("../controllers/usageHistoryController");
+
+// POST create new usage history record
+router.post("/", createUsageHistory);
 
 // GET usage history by dispenser ID
 // Query params: ?limit=10 (optional, default 10)

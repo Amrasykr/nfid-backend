@@ -134,7 +134,58 @@ const getWeeklyUsageHistory = async (req, res) => {
   }
 };
 
+// Create new usage history record
+const createUsageHistory = async (req, res) => {
+  try {
+    const { dispenserId, userId, day, usage } = req.body;
+
+    // Validate required fields
+    if (!dispenserId || !userId || !day || usage === undefined) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing required fields: dispenserId, userId, day, usage",
+      });
+    }
+
+    // Validate usage is a positive number
+    if (typeof usage !== "number" || usage <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Usage must be a positive number",
+      });
+    }
+
+    // Create usage history record
+    const usageHistoryData = {
+      dispenserId,
+      userId,
+      day,
+      date: new Date(),
+      usage,
+    };
+
+    const docRef = await db.collection("usageHistory").add(usageHistoryData);
+
+    res.status(201).json({
+      success: true,
+      message: "Usage history created successfully",
+      data: {
+        id: docRef.id,
+        ...usageHistoryData,
+      },
+    });
+  } catch (error) {
+    console.error("Error creating usage history:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to create usage history",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   getUsageHistory,
   getWeeklyUsageHistory,
+  createUsageHistory,
 };
