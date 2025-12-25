@@ -13,6 +13,10 @@ const options = {
     },
     servers: [
       {
+        url: "https://nfid-iot.vercel.app",
+        description: "Production server",
+      },
+      {
         url: "http://localhost:3001",
         description: "Development server",
       },
