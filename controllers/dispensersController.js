@@ -6,7 +6,7 @@ const db = initializeFirestore();
 // Get all dispensers
 const getAllDispensers = async (req, res) => {
   try {
-    const snapshot = await db.collection("dispensers").get();
+    const snapshot = await db.collection("testCollection").get();
 
     if (snapshot.empty) {
       return res.status(404).json({
