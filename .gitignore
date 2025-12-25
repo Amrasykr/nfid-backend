@@ -1,0 +1,6 @@
+node_modules
+.env
+firebaseAdminConfig.json
+.vercel
+*.log
+.DS_Store
