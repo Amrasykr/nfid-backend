@@ -16,6 +16,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
 const dispensersRoutes = require("./routes/dispensers");
+const usageHistoryRoutes = require("./routes/usageHistory");
+const usersRoutes = require("./routes/users");
+
+// Use routes
+app.use("/api/usage-history", usageHistoryRoutes);
+app.use("/api/users", usersRoutes);
 app.use("/api/dispensers", dispensersRoutes);
 
 // Health check endpoint
