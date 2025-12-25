@@ -184,12 +184,57 @@ const createUsageHistory = async (req, res) => {
 
     const docRef = await db.collection("usageHistory").add(usageHistoryData);
 
+    // Update dispenser: reduce remaining water and update status
+    const dispenserData = dispenserDoc.data();
+    const newRemaining = Math.max(0, dispenserData.remaining - usage);
+    const capacity = dispenserData.capacity || 1; // Prevent division by zero
+    
+    // Calculate status based on remaining/capacity percentage
+    const percentageRemaining = (newRemaining / capacity) * 100;
+    let newStatus;
+    if (percentageRemaining > 70) {
+      newStatus = "good";
+    } else if (percentageRemaining >= 30) {
+      newStatus = "medium";
+    } else {
+      newStatus = "low";
+    }
+
+    // Update dispenser document
+    await db.collection("dispensers").doc(dispenserId).update({
+      remaining: newRemaining,
+      status: newStatus,
+      lastSync: new Date(),
+    });
+
+    // Check if this is a new user for this dispenser (for totalUsers tracking)
+    // Query if this user has used this dispenser before
+    const existingUsageByUser = await db
+      .collection("usageHistory")
+      .where("dispenserId", "==", dispenserId)
+      .where("userId", "==", userId)
+      .limit(2) // We just need to know if there's more than 1 (including the one we just created)
+      .get();
+
+    // If this is the first usage by this user for this dispenser, increment totalUsers
+    if (existingUsageByUser.size === 1) {
+      const currentTotalUsers = dispenserData.totalUsers || 0;
+      await db.collection("dispensers").doc(dispenserId).update({
+        totalUsers: currentTotalUsers + 1,
+      });
+    }
+
     res.status(201).json({
       success: true,
       message: "Usage history created successfully",
       data: {
         id: docRef.id,
         ...usageHistoryData,
+      },
+      dispenserUpdates: {
+        remaining: newRemaining,
+        status: newStatus,
+        percentageRemaining: Math.round(percentageRemaining),
       },
     });
   } catch (error) {

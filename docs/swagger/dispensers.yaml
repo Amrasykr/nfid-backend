@@ -29,8 +29,8 @@ components:
           example: 85
         status:
           type: string
-          description: Current status of the dispenser
-          enum: [good, warning, critical, offline]
+          description: Current status of the dispenser (auto-calculated based on remaining/capacity percentage)
+          enum: [good, medium, low, offline]
           example: "good"
         temperature:
           type: number

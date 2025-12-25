@@ -64,7 +64,7 @@ paths:
                   example: 2.8
       responses:
         '201':
-          description: Usage history created successfully
+          description: Usage history created successfully. Also updates the dispenser's remaining water, status, and lastSync.
           content:
             application/json:
               schema:
@@ -76,6 +76,23 @@ paths:
                     type: string
                   data:
                     $ref: '#/components/schemas/UsageHistory'
+                  dispenserUpdates:
+                    type: object
+                    description: Summary of automatic updates made to the dispenser
+                    properties:
+                      remaining:
+                        type: number
+                        description: New remaining water amount in liters
+                        example: 14.2
+                      status:
+                        type: string
+                        description: New calculated status (good > 70%, medium 30-70%, low < 30%)
+                        enum: [good, medium, low]
+                        example: "good"
+                      percentageRemaining:
+                        type: number
+                        description: Percentage of water remaining
+                        example: 75
         '400':
           description: Invalid input - missing required fields or invalid usage value
           content:
