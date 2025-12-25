@@ -27,7 +27,7 @@ app.use("/api/users", usersRoutes);
 app.use("/api/dispensers", dispensersRoutes);
 
 // Swagger UI
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api-docs", swaggerUi.serveFiles(swaggerSpec, {}), swaggerUi.setup(swaggerSpec));
 
 // Health check endpoint
 app.get("/", (req, res) => {
