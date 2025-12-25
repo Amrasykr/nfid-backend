@@ -1,0 +1,22 @@
+paths:
+  /:
+    get:
+      summary: Health check endpoint
+      description: Check if the API is running
+      responses:
+        '200':
+          description: API is running successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: API is running
+                  timestamp:
+                    type: string
+                    format: date-time

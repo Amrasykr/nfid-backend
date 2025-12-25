@@ -1,0 +1,153 @@
+components:
+  schemas:
+    Dispenser:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the dispenser
+        name:
+          type: string
+          description: Name of the dispenser
+        location:
+          type: string
+          description: Location of the dispenser
+        status:
+          type: string
+          description: Current status of the dispenser
+        capacity:
+          type: number
+          description: Maximum capacity of the dispenser
+
+paths:
+  /api/dispensers:
+    get:
+      summary: Get all dispensers
+      tags:
+        - Dispensers
+      description: Retrieve a list of all dispensers
+      responses:
+        '200':
+          description: List of dispensers retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Dispenser'
+    post:
+      summary: Create a new dispenser
+      tags:
+        - Dispensers
+      description: Create a new dispenser in the system
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dispenser'
+      responses:
+        '201':
+          description: Dispenser created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Dispenser'
+        '400':
+          description: Invalid input
+
+  /api/dispensers/{id}:
+    get:
+      summary: Get dispenser by ID
+      tags:
+        - Dispensers
+      description: Retrieve a specific dispenser by its ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Dispenser ID
+      responses:
+        '200':
+          description: Dispenser retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Dispenser'
+        '404':
+          description: Dispenser not found
+    put:
+      summary: Update a dispenser
+      tags:
+        - Dispensers
+      description: Update an existing dispenser by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Dispenser ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dispenser'
+      responses:
+        '200':
+          description: Dispenser updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Dispenser'
+        '404':
+          description: Dispenser not found
+    delete:
+      summary: Delete a dispenser
+      tags:
+        - Dispensers
+      description: Delete a dispenser by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Dispenser ID
+      responses:
+        '200':
+          description: Dispenser deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+        '404':
+          description: Dispenser not found

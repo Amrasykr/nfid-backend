@@ -2,6 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swagger");
 
 // Load environment variables from .env file
 dotenv.config();
@@ -23,6 +25,9 @@ const usersRoutes = require("./routes/users");
 app.use("/api/usage-history", usageHistoryRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/dispensers", dispensersRoutes);
+
+// Swagger UI
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Health check endpoint
 app.get("/", (req, res) => {

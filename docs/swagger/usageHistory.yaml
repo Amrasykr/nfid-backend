@@ -1,0 +1,96 @@
+components:
+  schemas:
+    UsageHistory:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the usage record
+        dispenserId:
+          type: string
+          description: ID of the dispenser
+        userId:
+          type: string
+          description: ID of the user
+        timestamp:
+          type: string
+          format: date-time
+          description: When the dispenser was used
+        amount:
+          type: number
+          description: Amount dispensed
+
+paths:
+  /api/usage-history/{dispenserId}:
+    get:
+      summary: Get usage history by dispenser ID
+      tags:
+        - Usage History
+      description: Retrieve usage history for a specific dispenser
+      parameters:
+        - in: path
+          name: dispenserId
+          required: true
+          schema:
+            type: string
+          description: Dispenser ID
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+          description: Maximum number of records to return
+          example: 10
+      responses:
+        '200':
+          description: Usage history retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UsageHistory'
+        '404':
+          description: Dispenser not found
+
+  /api/usage-history/{dispenserId}/weekly:
+    get:
+      summary: Get weekly usage history by dispenser ID
+      tags:
+        - Usage History
+      description: Retrieve weekly usage history for a specific dispenser
+      parameters:
+        - in: path
+          name: dispenserId
+          required: true
+          schema:
+            type: string
+          description: Dispenser ID
+        - in: query
+          name: date
+          schema:
+            type: string
+            format: date
+          description: Reference date for the week (optional, defaults to today)
+          example: "2024-12-25"
+      responses:
+        '200':
+          description: Weekly usage history retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UsageHistory'
+        '404':
+          description: Dispenser not found

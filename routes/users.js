@@ -7,3 +7,4 @@ const { getMyProfile } = require("../controllers/usersController");
 router.get("/me", getMyProfile);
 
 module.exports = router;
+

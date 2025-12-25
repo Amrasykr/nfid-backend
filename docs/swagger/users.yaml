@@ -1,0 +1,48 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the user
+        name:
+          type: string
+          description: User's full name
+        email:
+          type: string
+          description: User's email address
+        createdAt:
+          type: string
+          format: date-time
+          description: Account creation timestamp
+
+paths:
+  /api/users/me:
+    get:
+      summary: Get my profile
+      tags:
+        - Users
+      description: Retrieve the current user's profile (temporary query param until auth is implemented)
+      parameters:
+        - in: query
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: User ID (temporary until authentication is implemented)
+          example: user_001
+      responses:
+        '200':
+          description: User profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
