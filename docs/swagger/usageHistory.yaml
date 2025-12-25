@@ -87,6 +87,18 @@ paths:
                     type: boolean
                   message:
                     type: string
+        '404':
+          description: Dispenser or user not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                    example: "Dispenser with ID 'disp_001' not found"
         '500':
           description: Server error
 

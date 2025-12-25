@@ -155,6 +155,24 @@ const createUsageHistory = async (req, res) => {
       });
     }
 
+    // Validate dispenser exists
+    const dispenserDoc = await db.collection("dispensers").doc(dispenserId).get();
+    if (!dispenserDoc.exists) {
+      return res.status(404).json({
+        success: false,
+        message: `Dispenser with ID '${dispenserId}' not found`,
+      });
+    }
+
+    // Validate user exists (optional but recommended)
+    const userDoc = await db.collection("users").doc(userId).get();
+    if (!userDoc.exists) {
+      return res.status(404).json({
+        success: false,
+        message: `User with ID '${userId}' not found`,
+      });
+    }
+
     // Create usage history record
     const usageHistoryData = {
       dispenserId,
