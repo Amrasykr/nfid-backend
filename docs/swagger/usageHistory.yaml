@@ -3,22 +3,27 @@ components:
     UsageHistory:
       type: object
       properties:
-        id:
-          type: string
-          description: Unique identifier for the usage record
         dispenserId:
           type: string
           description: ID of the dispenser
+          example: "disp_001"
         userId:
           type: string
           description: ID of the user
-        timestamp:
+          example: "user_001"
+        day:
+          type: string
+          description: Day of the week
+          example: "Mon"
+        date:
           type: string
           format: date-time
-          description: When the dispenser was used
-        amount:
+          description: Timestamp when the usage occurred
+        usage:
           type: number
-          description: Amount dispensed
+          description: Amount of water used in liters
+          example: 2.8
+
 
 paths:
   /api/usage-history/{dispenserId}:

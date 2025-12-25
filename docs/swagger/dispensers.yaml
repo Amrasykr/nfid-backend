@@ -6,18 +6,66 @@ components:
         id:
           type: string
           description: Unique identifier for the dispenser
-        name:
-          type: string
-          description: Name of the dispenser
+          example: "disp_001"
         location:
           type: string
-          description: Location of the dispenser
+          description: Room/location code of the dispenser
+          example: "A102"
+        building:
+          type: string
+          description: Building and floor information
+          example: "Campus A - Floor 1"
+        capacity:
+          type: number
+          description: Maximum capacity of the dispenser in liters
+          example: 19
+        remaining:
+          type: number
+          description: Remaining water in liters
+          example: 16.15
+        waterLevel:
+          type: number
+          description: Water level percentage (0-100)
+          example: 85
         status:
           type: string
           description: Current status of the dispenser
-        capacity:
+          enum: [good, warning, critical, offline]
+          example: "good"
+        temperature:
           type: number
-          description: Maximum capacity of the dispenser
+          description: Water temperature in Celsius
+          example: 8
+        connectivity:
+          type: string
+          description: Connection status
+          enum: [Online, Offline]
+          example: "Online"
+        lastSync:
+          type: string
+          format: date-time
+          description: Last synchronization timestamp
+        lastRefill:
+          type: string
+          format: date-time
+          description: Last refill timestamp
+        dailyUsage:
+          type: number
+          description: Daily water usage in liters
+          example: 2.5
+        estimatedEmpty:
+          type: string
+          description: Estimated date when dispenser will be empty
+          example: "Dec 25"
+        totalUsers:
+          type: number
+          description: Total number of users registered to this dispenser
+          example: 24
+        activeToday:
+          type: number
+          description: Number of users who used the dispenser today
+          example: 18
+
 
 paths:
   /api/dispensers:

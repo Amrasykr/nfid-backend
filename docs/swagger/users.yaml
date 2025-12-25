@@ -3,19 +3,27 @@ components:
     User:
       type: object
       properties:
-        id:
-          type: string
-          description: Unique identifier for the user
         name:
           type: string
-          description: User's full name
-        email:
+          description: Student's full name
+          example: "Ammar"
+        cohort:
           type: string
-          description: User's email address
-        createdAt:
+          description: Student's cohort/year
+          example: "2022"
+        status:
+          type: boolean
+          description: Active status of the student
+          example: true
+        studyProgram:
           type: string
-          format: date-time
-          description: Account creation timestamp
+          description: Student's study program
+          example: "Information Technology"
+        NIM:
+          type: string
+          description: Student identification number (NIM)
+          example: "0110222117"
+
 
 paths:
   /api/users/me:
