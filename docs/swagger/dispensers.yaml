@@ -114,6 +114,81 @@ paths:
         '400':
           description: Invalid input
 
+  /api/dispensers/sync:
+    post:
+      summary: Sync water level from IoT sensor
+      tags:
+        - Dispensers
+      description: |
+        Endpoint for IoT dispenser to sync water level data from ultrasonic sensor.
+        Automatically detects refill events when water level increases by 15% or more of capacity.
+        Updates dispenser status, water level percentage, and lastRefill timestamp.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - dispenserId
+                - remaining
+              properties:
+                dispenserId:
+                  type: string
+                  description: ID of the dispenser
+                  example: "disp_001"
+                remaining:
+                  type: number
+                  description: Current remaining water in liters (from ultrasonic sensor)
+                  example: 18.5
+      responses:
+        '200':
+          description: Water level synced successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Water level synced successfully - Refill detected!"
+                  data:
+                    type: object
+                    properties:
+                      dispenserId:
+                        type: string
+                        example: "disp_001"
+                      remaining:
+                        type: number
+                        example: 18.5
+                      waterLevel:
+                        type: number
+                        description: Water level percentage (0-100)
+                        example: 97
+                      status:
+                        type: string
+                        enum: [good, medium, low, offline]
+                        example: "good"
+                      refillDetected:
+                        type: boolean
+                        description: Whether a refill was detected in this sync
+                        example: true
+                      previousRemaining:
+                        type: number
+                        description: Previous remaining water before this sync
+                        example: 5.2
+                      change:
+                        type: number
+                        description: Change in water level (positive = refill, negative = usage)
+                        example: 13.3
+        '400':
+          description: Invalid input or missing required fields
+        '404':
+          description: Dispenser not found
+
   /api/dispensers/{id}:
     get:
       summary: Get dispenser by ID

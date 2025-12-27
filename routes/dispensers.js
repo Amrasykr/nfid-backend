@@ -5,6 +5,7 @@ const {
   getDispenserById,
   createDispenser,
   updateDispenser,
+  syncWaterLevel,
   deleteDispenser,
 } = require("../controllers/dispensersController");
 
@@ -19,6 +20,9 @@ router.post("/", createDispenser);
 
 // PUT update dispenser
 router.put("/:id", updateDispenser);
+
+// POST sync water level from IoT sensor
+router.post("/sync", syncWaterLevel);
 
 // DELETE dispenser
 router.delete("/:id", deleteDispenser);
