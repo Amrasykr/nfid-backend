@@ -137,13 +137,13 @@ const getWeeklyUsageHistory = async (req, res) => {
 // Create new usage history record
 const createUsageHistory = async (req, res) => {
   try {
-    const { dispenserId, userId, day, usage } = req.body;
+    const { dispenserId, userId, usage } = req.body;
 
     // Validate required fields
-    if (!dispenserId || !userId || !day || usage === undefined) {
+    if (!dispenserId || !userId || usage === undefined) {
       return res.status(400).json({
         success: false,
-        message: "Missing required fields: dispenserId, userId, day, usage",
+        message: "Missing required fields: dispenserId, userId, usage",
       });
     }
 
@@ -177,7 +177,6 @@ const createUsageHistory = async (req, res) => {
     const usageHistoryData = {
       dispenserId,
       userId,
-      day,
       date: new Date(),
       usage,
     };
