@@ -26,6 +26,41 @@ components:
 
 
 paths:
+  /api/users:
+    get:
+      summary: Get all users
+      tags:
+        - Users
+      description: Retrieve all users from the database
+      responses:
+        '200':
+          description: Users retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  count:
+                    type: integer
+                    description: Total number of users
+                    example: 5
+                  data:
+                    type: array
+                    items:
+                      allOf:
+                        - type: object
+                          properties:
+                            id:
+                              type: string
+                              description: User ID
+                              example: user_001
+                        - $ref: '#/components/schemas/User'
+        '500':
+          description: Internal server error
+
   /api/users/me:
     get:
       summary: Get my profile

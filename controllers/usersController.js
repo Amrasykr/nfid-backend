@@ -2,6 +2,31 @@ const initializeFirestore = require("../config/firestore");
 
 const db = initializeFirestore();
 
+// Get all users
+const getAllUsers = async (req, res) => {
+  try {
+    const snapshot = await db.collection("users").get();
+
+    const users = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    res.status(200).json({
+      success: true,
+      count: users.length,
+      data: users,
+    });
+  } catch (error) {
+    console.error("Error fetching all users:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch users",
+      error: error.message,
+    });
+  }
+};
+
 // Get my profile (temporarily using userId from query/params until auth is implemented)
 const getMyProfile = async (req, res) => {
   try {
@@ -43,5 +68,6 @@ const getMyProfile = async (req, res) => {
 };
 
 module.exports = {
+  getAllUsers,
   getMyProfile,
 };
