@@ -11,10 +11,7 @@ components:
           type: string
           description: ID of the user
           example: "user_001"
-        day:
-          type: string
-          description: Day of the week
-          example: "Mon"
+
         date:
           type: string
           format: date-time
@@ -43,7 +40,6 @@ paths:
               required:
                 - dispenserId
                 - userId
-                - day
                 - usage
               properties:
                 dispenserId:
@@ -54,10 +50,7 @@ paths:
                   type: string
                   description: ID of the user
                   example: "user_001"
-                day:
-                  type: string
-                  description: Day of the week
-                  example: "Mon"
+
                 usage:
                   type: number
                   description: Amount of water used in liters
